@@ -1,6 +1,8 @@
 obj/
 xobj/
 
+*.asset.h
+
 template-project
 template-project.exe
 

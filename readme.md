@@ -1,5 +1,5 @@
 # A C project template
-For developing on Linux and building for Liunx/Windows.  
+For developing on Linux and building for Linux/Windows.  
 Works with `gcc`, `clang`, `tcc` and probably others.
 
 ## Usage
@@ -15,5 +15,6 @@ Change the project name in `.gitignore` and `Makefile`
 
 - All directories in `src/` are included. You don't have to use relative paths when including headers.
 - Only files that have changed and their dependencies are rebuild.
-- Crosscompile from Linux to windows.
+- Cross compile from Linux to windows.
+- Embed assets directly into the executable.
 

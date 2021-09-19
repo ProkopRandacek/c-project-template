@@ -6,19 +6,27 @@ SRCS = $(shell find src/ -name \*.c) # c sources
 OBJS = $(SRCS:src/%.c=obj/%.o)       # object files
 DEPS = $(SRCS:src/%.c=obj/%.d)       # makefile dependency files
 
-X_DEPS = $(SRCS:src/%.c=xobj/%.d) # makefile dependency files
+ASSETS = $(shell find src/ -name \*.asset) # asset files that should be embedded at compile time
+ASSETSH = $(addsuffix .h,$(ASSETS)) # asset headers
+
+X_DEPS = $(SRCS:src/%.c=xobj/%.d) # cross compile makefile dependency files
 X_OBJS = $(SRCS:src/%.c=xobj/%.o) # cross compile object files
 
-# Include all source directories so we don't have to use relative paths in includes
-CFLAGS += $(addprefix -I,$(DIRS))
+CFLAGS += $(addprefix -I,$(DIRS)) # Include all source directories so we don't have to use relative paths in includes
 
+
+# asset embedding
+$(ASSETSH): src/%.asset.h: src/%.asset $(BIEM)
+	@mkdir -p -- $(dir $@)
+	@echo -e "EM\t$(notdir $@)"
+	@$(BIEM) $< $(notdir $<) $@
 
 
 # object building rule
-$(OBJS): obj/%.o: src/%.c
+$(OBJS): obj/%.o: src/%.c $(ASSETSH)
 	@mkdir -p -- $(dir $@)
 	@echo -e "CC\t$(notdir $@)"
-	@$(CC) $(CFLAGS) -MD -o $@ -c $<
+	@$(CC) $(CFLAGS) -DLINUX -MD -o $@ -c $<
 
 # executable linking rule
 $(TARGET): $(LIBS) $(OBJS)
@@ -27,12 +35,11 @@ $(TARGET): $(LIBS) $(OBJS)
 	@$(CC) $(CFLAGS) -o $@ $(OBJS) $(LDLIBS) $(LDFLAGS)
 
 
-
 # cross compile object building
-$(X_OBJS): xobj/%.o: src/%.c
+$(X_OBJS): xobj/%.o: src/%.c $(ASSETSH)
 	@mkdir -p -- $(dir $@)
 	@echo -e "xCC\t$(notdir $@)"
-	@$(X_CC) $(X_CFLAGS) -MD -o $@ -c $<
+	@$(X_CC) $(X_CFLAGS) -DWINDOWS -MD -o $@ -c $<
 
 # cross compile exe linking
 $(X_TARGET): $(X_LIBS) $(X_OBJS)
@@ -41,10 +48,9 @@ $(X_TARGET): $(X_LIBS) $(X_OBJS)
 	@$(X_CC) $(X_CFLAGS) -o $@ $(X_OBJS) $(X_LDLIBS) $(X_LDFLAGS)
 
 
-
 clean::
-	$(RM) -r -- obj/
-	$(RM) -r -- xobj/
+	$(RM) -r obj/ xobj/
+	$(RM) $(ASSETSH)
 
 -include $(DEPS) $(X_DEPS)
 

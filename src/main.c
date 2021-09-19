@@ -3,24 +3,30 @@
 #include <string.h>
 
 #include "log.h"
+#include "lorem.txt.asset.h" // this file is created at compile time
 
 #ifndef VERSION
 #define VERSION "?"
 #endif
+
 #ifndef COMMIT
 #define COMMIT "?"
 #endif
 
-int main(int argc, char* argv[]) {
-	if (argc == 2 && (!strcmp(argv[1], "--version") || !strcmp(argv[1], "-v"))) {
-		puts("template project " VERSION " (" COMMIT ")\nCompiled at " __DATE__ " " __TIME__);
-		exit(0);
-	} else if (argc > 1) {
-		puts("usage: r8 [-v|--version]");
-		exit(1);
-	}
+int main(void) {
+	msg("Hello world from template project %s compiled from commit %s!", VERSION, COMMIT);
 
-	msg("Hello world from template project %s!", VERSION);
+#ifdef LINUX
+	msg("I'm the Linux build!");
+#endif
+#ifdef WINDOWS
+	msg("I'm the Windows build!");
+#endif
+
+	msg("Byte content of the lorem.txt file:");
+	for (int i = 0; i < lorem_txt_asset_size; i++)
+		printf("%d ", lorem_txt_asset_bytes[i]);
+	printf("\n");
 
 	return 0;
 }

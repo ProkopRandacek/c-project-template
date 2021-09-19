@@ -2,6 +2,13 @@
 #include <stdlib.h>
 #include <string.h>
 
+#ifndef VERSION
+#define VERSION "?"
+#endif
+#ifndef COMMIT
+#define COMMIT "?"
+#endif
+
 int main(int argc, char* argv[]) {
 	if (argc == 2 && (!strcmp(argv[1], "--version") || !strcmp(argv[1], "-v"))) {
 		puts("template project " VERSION " (" COMMIT ")\nCompiled at " __DATE__ " " __TIME__);

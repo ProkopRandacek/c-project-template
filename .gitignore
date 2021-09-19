@@ -1,3 +1,8 @@
 obj/
+xobj/
+
 template-project
+template-project.exe
+
+.ccls-cache/
 

@@ -1,13 +1,13 @@
 # included from ../Makefile
 # rules for compiling
 
-DIRS += $(shell find src/ -type d)    # all folders
-SRCS += $(shell find src/ -name \*.c) # c sources
-OBJS  = $(SRCS:src/%.c=obj/%.o)       # object files
-DEPS  = $(SRCS:src/%.c=obj/%.d)       # makefile dependency files
+DIRS = $(shell find src/ -type d)    # all folders
+SRCS = $(shell find src/ -name \*.c) # c sources
+OBJS = $(SRCS:src/%.c=obj/%.o)       # object files
+DEPS = $(SRCS:src/%.c=obj/%.d)       # makefile dependency files
 
-X_DEPS  = $(SRCS:src/%.c=xobj/%.d)     # makefile dependency files
-X_OBJS  = $(SRCS:src/%.c=xobj/%.o)    # cross compile object files
+X_DEPS = $(SRCS:src/%.c=xobj/%.d) # makefile dependency files
+X_OBJS = $(SRCS:src/%.c=xobj/%.o) # cross compile object files
 
 # Include all source directories so we don't have to use relative paths in includes
 CFLAGS += $(addprefix -I,$(DIRS))

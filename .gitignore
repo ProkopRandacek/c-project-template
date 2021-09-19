@@ -5,4 +5,6 @@ template-project
 template-project.exe
 
 .ccls-cache/
+.cache/
+compile_commands.json
 

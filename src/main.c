@@ -2,6 +2,8 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "log.h"
+
 #ifndef VERSION
 #define VERSION "?"
 #endif
@@ -18,7 +20,8 @@ int main(int argc, char* argv[]) {
 		exit(1);
 	}
 
-	printf("Hello world\n");
+	msg("Hello world from template project %s!", VERSION);
+
 	return 0;
 }
 

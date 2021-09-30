@@ -16,10 +16,10 @@ CFLAGS += $(addprefix -I,$(DIRS)) # Include all source directories so we don't h
 
 
 # asset embedding
-$(ASSETSH): src/%.asset.h: src/%.asset $(BIEM)
+$(ASSETSH): src/%.asset.h: src/%.asset
 	@mkdir -p -- $(dir $@)
 	@echo -e "EM\t$(notdir $@)"
-	@$(BIEM) $< $(notdir $<) $@
+	@./biem $<
 
 
 # object building rule

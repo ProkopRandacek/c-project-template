@@ -42,6 +42,5 @@ clean::
 	$(RM) $(TARGET)
 	$(RM) $(X_TARGET)
 
-include helper/Makefile
 include src/Makefile
 

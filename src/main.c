@@ -24,8 +24,8 @@ int main(void) {
 #endif
 
 	msg("Byte content of the lorem.txt file:");
-	for (int i = 0; i < lorem_txt_asset_size; i++)
-		printf("%d ", lorem_txt_asset_bytes[i]);
+	for (int i = 0; lorem_txt_asset[i] != 0; i++)
+		printf("%d ", lorem_txt_asset[i]);
 	printf("\n");
 
 	return 0;

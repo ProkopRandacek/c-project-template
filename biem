@@ -2,6 +2,9 @@
 # Generates a header file containing byte array of the contents of the input file
 # ./biem test.txt -> text.txt.h
 
+# note: Files larger than the capacity of `int` can rise an int overflow in the `*_size` variable.
+#       Although when this happens, the compiler should emit a warning.
+
 i=$1   # input file
 o=$1.h # output file
 

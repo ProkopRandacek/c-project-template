@@ -1,5 +1,6 @@
 # included from Makefile
 # rules for compiling
+# vim: ft=make
 
 DIRS = $(shell find src/ -type d)    # all folders
 SRCS = $(shell find src/ -name \*.c) # c sources

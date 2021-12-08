@@ -15,8 +15,7 @@ WARNS ?= -Wall -Wextra -Wundef -Wunreachable-code -Wno-misleading-indentation \
 
 INCLUDE =
 
-CFLAGS = -O3 -std=c11 -g $(DEFS) $(WARNS) $(INCLUDE) \
-		 -fpic -fstack-protector-strong
+CFLAGS = -O3 -std=c11 -g $(DEFS) $(WARNS) $(INCLUDE) -fpic
 
 LDLIBS = -lm
 
@@ -45,5 +44,5 @@ clean::
 	$(RM) $(TARGET)
 	$(RM) $(X_TARGET)
 
-include src/Makefile
+include Makerules
 

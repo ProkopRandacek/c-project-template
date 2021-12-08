@@ -1,18 +1,18 @@
 #!/bin/sh
 # Generates a header file containing byte array of the contents of the input file
 # ./biem test.txt -> text.txt.h
-i=$1
-o=$1.h
 
-guard=$(basename $i | tr '[a-z].' '[A-Z]_')
+i=$1   # input file
+o=$1.h # output file
+
 var=$(basename $i | tr '.' '_')
+size=$(du --bytes -- $i | cut -f1)
 
-echo "#ifndef $guard"        >  $o
-echo "#define $guard"        >> $o
-echo "const char $var[] = {" >> $o
+echo "#pragma once"                   >  $o
+echo "const int ${var}_size = $size;" >> $o
+echo "const char $var[$size] = {"     >> $o
 
-od $i -An -v -tu1 -w999999999 | sed -e 's/^ *//' -e 's/ \+/, /g' >> $o
+od $i -An -v -tu1 -w20 | sed -e 's/^ *//' -e 's/ \+/, /g' -e 's/$/,/g'>> $o
 
-echo "};"     >> $o
-echo "#endif" >> $o
+echo -e "};\n" >> $o
 

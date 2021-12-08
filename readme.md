@@ -17,4 +17,5 @@ Change the project name in `.gitignore` and `Makefile`
 - Only files that have changed and their dependencies are rebuild.
 - Cross compile from Linux to windows.
 - Embed assets directly into the executable.
+- Write Python scripts that generate parts of your C code at build time.
 

@@ -58,6 +58,7 @@ $(X_TARGET): $(X_LIBS) $(X_OBJS)
 clean::
 	$(RM) -r obj/ xobj/
 	$(RM) $(ASSETSH)
+	$(RM) $(GEN)
 
 -include $(DEPS) $(X_DEPS)
 

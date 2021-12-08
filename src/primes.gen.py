@@ -7,4 +7,17 @@
 # by hand
 
 print("#pragma once")
+print("static const int primes[] = {")
+
+def is_prime(n):
+    for i in range(2, n):
+        if n % i == 0:
+            return False
+    return True
+
+primes = [p for p in range(1000) if is_prime(p)]
+
+print(", ".join(map(str, primes)))
+
+print("};")
 

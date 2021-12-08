@@ -7,15 +7,18 @@ COMMIT_HASH ?= $(shell git rev-parse --short HEAD)
 
 DEFS = -DVERSION="\"$(VERSION)\"" -DCOMMIT="\"$(COMMIT_HASH)\""
 
-WARNS ?= \
-	-Wall -Wextra -Wunused-parameter -Wundef -Wunreachable-code \
-	-Wno-misleading-indentation -Wenum-conversion -Wswitch-enum \
-	-Wenum-compare -Wswitch -Wswitch-enum -Wno-free-nonheap-object \
-	-Wmissing-field-initializers -Wno-multichar -Warray-bounds \
-	-Wunused-macros -Wdangling-else -Wstrict-prototypes
+WARNS ?= -Wall -Wextra -Wundef -Wunreachable-code -Wno-misleading-indentation \
+		 -Wenum-conversion -Wswitch-enum -Wenum-compare -Wswitch -Wswitch-enum \
+		 -Wno-free-nonheap-object -Wmissing-field-initializers -Wno-multichar \
+		 -Warray-bounds -Wdangling-else -Wstrict-prototypes \
+		 -Wduplicated-branches -Wduplicated-cond -Wfloat-equal -Wstack-protector
 
-CFLAGS = -O3 -pipe -std=c11 $(DEFS) $(WARNS)
-LDLIBS = -lm -ldl -lpthread
+INCLUDE =
+
+CFLAGS = -O3 -std=c11 -g $(DEFS) $(WARNS) $(INCLUDE) \
+		 -fpic -fstack-protector-strong
+
+LDLIBS = -lm
 
 
 
@@ -23,7 +26,7 @@ LDLIBS = -lm -ldl -lpthread
 X_CC     ?= x86_64-w64-mingw32-gcc
 X_TARGET ?= $(TARGET).exe
 X_CFLAGS  = $(CFLAGS)
-X_LDLIBS  = -lm -Ldl -lpthread
+X_LDLIBS  = -lm
 
 # append your *.a libraries here.
 LIBS   =

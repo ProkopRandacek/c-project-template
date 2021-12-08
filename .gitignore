@@ -2,6 +2,7 @@ obj/
 xobj/
 
 *.asset.h
+*.gen.h
 
 template-project
 template-project.exe

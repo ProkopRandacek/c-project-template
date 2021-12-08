@@ -6,8 +6,11 @@ SRCS = $(shell find src/ -name \*.c) # c sources
 OBJS = $(SRCS:src/%.c=obj/%.o)       # object files
 DEPS = $(SRCS:src/%.c=obj/%.d)       # makefile dependency files
 
-ASSETS = $(shell find src/ -name \*.asset) # asset files that should be embedded at compile time
-ASSETSH = $(addsuffix .h,$(ASSETS)) # asset headers
+ASSETS  = $(shell find src/ -name \*.asset) # asset files that should be embedded at compile time
+ASSETSH = $(addsuffix .h,$(ASSETS))         # asset headers
+
+GENER = $(shell find src/ -name \*.gen.py) # the code generators
+GEN   = $(GENER:%.gen.py=%.gen.h)          # the generated code
 
 X_DEPS = $(SRCS:src/%.c=xobj/%.d) # cross compile makefile dependency files
 X_OBJS = $(SRCS:src/%.c=xobj/%.o) # cross compile object files
@@ -21,9 +24,13 @@ $(ASSETSH): src/%.asset.h: src/%.asset
 	@echo -e "EM\t$(notdir $@)"
 	@./biem $<
 
+# code generation
+$(GEN): src/%.gen.h: src/%.gen.py
+	@echo -e "GEN\t$@"
+	@python $< > $@
 
 # object building rule
-$(OBJS): obj/%.o: src/%.c $(ASSETSH)
+$(OBJS): obj/%.o: src/%.c $(ASSETSH) $(GEN)
 	@mkdir -p -- $(dir $@)
 	@echo -e "CC\t$(notdir $@)"
 	@$(CC) $(CFLAGS) -DLINUX -MD -o $@ -c $<
@@ -36,7 +43,7 @@ $(TARGET): $(LIBS) $(OBJS)
 
 
 # cross compile object building
-$(X_OBJS): xobj/%.o: src/%.c $(ASSETSH)
+$(X_OBJS): xobj/%.o: src/%.c $(ASSETSH) $(GEN)
 	@mkdir -p -- $(dir $@)
 	@echo -e "xCC\t$(notdir $@)"
 	@$(X_CC) $(X_CFLAGS) -DWINDOWS -MD -o $@ -c $<

@@ -10,15 +10,14 @@ DEFS = -DVERSION="\"$(VERSION)\"" -DCOMMIT="\"$(COMMIT_HASH)\""
 WARNS ?= -Wall -Wextra -Wundef -Wunreachable-code -Wno-misleading-indentation \
 		 -Wenum-conversion -Wswitch-enum -Wenum-compare -Wswitch -Wswitch-enum \
 		 -Wno-free-nonheap-object -Wmissing-field-initializers -Wno-multichar \
-		 -Warray-bounds -Wdangling-else -Wstrict-prototypes \
-		 -Wduplicated-branches -Wduplicated-cond -Wfloat-equal -Wstack-protector
+		 -Warray-bounds -Wdangling-else -Wstrict-prototypes -Wduplicated-branches \
+		 -Wduplicated-cond -Wfloat-equal -Wstack-protector
 
 INCLUDE =
 
-CFLAGS = -O3 -std=c11 -g $(DEFS) $(WARNS) $(INCLUDE) -fpic
+CFLAGS = -O2 -std=c11 -g $(DEFS) $(WARNS) -fpic
 
 LDLIBS = -lm
-
 
 
 # cross compile variables are prefixed with "X_"
@@ -30,7 +29,6 @@ X_LDLIBS  = -lm
 # append your *.a libraries here.
 LIBS   =
 X_LIBS =
-
 
 
 all:     $(TARGET) $(X_TARGET)

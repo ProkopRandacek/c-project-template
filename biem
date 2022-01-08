@@ -2,19 +2,15 @@
 # Generates a header file containing byte array of the contents of the input file
 # ./biem test.txt -> text.txt.h
 
-# note: Files larger than the capacity of `int` can rise an int overflow in the `*_size` variable.
-#       Although when this happens, the compiler should emit a warning.
-
 i=$1   # input file
 o=$1.h # output file
 
 var=$(basename $i | tr '.' '_')
-size=$(du --bytes -- $i | cut -f1)
 
-echo "#pragma once"                   >  $o
-echo "const int ${var}_size = $size;" >> $o
-echo "const char $var[$size] = {"     >> $o
+echo "#pragma once" > $o
+echo "const unsigned char $var[] = {" >> $o
 
+# Writes the file as sequence of numbers, seperated correctly using commas
 od $i -An -v -tu1 -w20 | sed -e 's/^ *//' -e 's/ \+/, /g' -e 's/$/,/g'>> $o
 
 echo -e "};\n" >> $o
